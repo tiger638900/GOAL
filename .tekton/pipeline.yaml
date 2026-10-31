@@ -80,3 +80,4 @@ spec:
           value: |
             oc apply -f k8s/deployment.yaml
             oc apply -f k8s/service.yaml
+

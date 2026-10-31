@@ -363,3 +363,4 @@ if __name__ == "__main__":
     create_pvc_details_screenshot()
     create_pipeline_final_screenshot()
     create_pipeline_green_screenshot()
+
