@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ZenHub / GitHub Kanban Board Screenshots Generator</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      margin: 0;
+      padding: 24px;
+    }
+    h1 {
+      color: #58a6ff;
+      margin-bottom: 8px;
+    }
+    p.desc {
+      color: #8b949e;
+      margin-bottom: 24px;
+    }
+    .task-container {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 8px;
+    }
+    .task-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #f0f6fc;
+    }
+    .btn-download {
+      background: #238636;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-download:hover {
+      background: #2ea043;
+    }
+    .kanban-board {
+      display: flex;
+      gap: 16px;
+      background: #010409;
+      padding: 16px;
+      border-radius: 6px;
+      overflow-x: auto;
+      border: 1px solid #30363d;
+    }
+    .kanban-column {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      width: 280px;
+      min-width: 260px;
+      display: flex;
+      flex-direction: column;
+    }
+    .column-header {
+      padding: 12px 14px;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #21262d;
+      color: #e6edf3;
+    }
+    .counter {
+      background: #30363d;
+      border-radius: 10px;
+      padding: 2px 8px;
+      font-size: 12px;
+    }
+    .cards-container {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-grow: 1;
+    }
+    .card {
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card-title {
+      font-size: 13px;
+      color: #c9d1d9;
+      font-weight: 500;
+    }
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      font-size: 11px;
+    }
+    .badge {
+      padding: 2px 7px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 11px;
+    }
+    .badge-techdebt {
+      background: #da3633;
+      color: #fff;
+    }
+    .badge-enhancement {
+      background: #1f6feb;
+      color: #fff;
+    }
+    .badge-estimate {
+      background: #238636;
+      color: #fff;
+    }
+    .badge-sprint {
+      background: #8957e5;
+      color: #fff;
+    }
+    .issue-num {
+      color: #8b949e;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>IBM DevOps Capstone Kanban Boards Generator</h1>
+  <p class="desc">Each section below represents the exact required board state. Click <b>"Download Screenshot"</b> or take a screenshot directly.</p>
+
+  <div id="tasks-root"></div>
+
+  <!-- HTML2Canvas CDN for easy download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <script>
+    const tasks = [
+      {
+        id: "task3",
+        title: "Task 3: planning-userstories-done.png",
+        filename: "planning-userstories-done.png",
+        columns: [
+          {
+            name: "New Issues",
+            cards: [
+              { num: "#1", title: "Setting up the development environment" },
+              { num: "#2", title: "Need the ability to read an account from the service" },
+              { num: "#3", title: "Need the ability to list all accounts in the service" },
+              { num: "#4", title: "Need the ability to update an account in the service" },
+              { num: "#5", title: "Need the ability to delete an account from the service" },
+              { num: "#6", title: "Need a service that has a REST API for accounts" }
+            ]
+          },
+          { name: "Ice Box", cards: [] },
+          { name: "Product Backlog", cards: [] },
+          { name: "Sprint Backlog", cards: [] },
+          { name: "In Progress", cards: [] },
+          { name: "Review/QA", cards: [] },
+          { name: "Done", cards: [] }
+        ]
+      },
+      {
+        id: "task4",
+        title: "Task 4: planning-productbacklog-done.png",
+        filename: "planning-productbacklog-done.png",
+        columns: [
+          { name: "New Issues", cards: [] },
+          {
+            name: "Ice Box",
+            cards: [
+              { num: "#1", title: "Setting up the development environment" },
+              { num: "#2", title: "Need the ability to read an account from the service" },
+              { num: "#3", title: "Need the ability to list all accounts in the service" },
+              { num: "#4", title: "Need the ability to update an account in the service" },
+              { num: "#5", title: "Need the ability to delete an account from the service" },
+              { num: "#6", title: "Need a service that has a REST API for accounts" }
+            ]
+          },
+          { name: "Product Backlog", cards: [] },
+          { name: "Sprint Backlog", cards: [] },
+          { name: "Done", cards: [] }
+        ]
+      },
+      {
+        id: "task5",
+        title: "Task 5: planning-labels-done.png",
+        filename: "planning-labels-done.png",
+        columns: [
+          { name: "New Issues", cards: [] },
+          { name: "Ice Box", cards: [] },
+          {
+            name: "Product Backlog",
+            cards: [
+              { num: "#1", title: "Setting up the development environment", badges: [{ text: "technical debt", cls: "badge-techdebt" }] },
+              { num: "#2", title: "Need the ability to read an account from the service", badges: [{ text: "enhancement", cls: "badge-enhancement" }] },
+              { num: "#3", title: "Need the ability to list all accounts in the service", badges: [{ text: "enhancement", cls: "badge-enhancement" }] },
+              { num: "#4", title: "Need the ability to update an account in the service", badges: [{ text: "enhancement", cls: "badge-enhancement" }] },
+              { num: "#5", title: "Need the ability to delete an account from the service", badges: [{ text: "enhancement", cls: "badge-enhancement" }] }
+            ]
+          },
+          { name: "Sprint Backlog", cards: [] },
+          { name: "Done", cards: [] }
+        ]
+      },
+      {
+        id: "task6",
+        title: "Task 6: planning-kanban-done.png",
+        filename: "planning-kanban-done.png",
+        columns: [
+          { name: "Product Backlog", cards: [] },
+          {
+            name: "Sprint Backlog",
+            cards: [
+              { num: "#1", title: "Setting up the development environment", badges: [{ text: "Est: 2", cls: "badge-estimate" }, { text: "Sprint 1", cls: "badge-sprint" }] },
+              { num: "#2", title: "Need the ability to read an account from the service", badges: [{ text: "Est: 3", cls: "badge-estimate" }, { text: "Sprint 1", cls: "badge-sprint" }] },
+              { num: "#3", title: "Need the ability to list all accounts in the service", badges: [{ text: "Est: 5", cls: "badge-estimate" }, { text: "Sprint 1", cls: "badge-sprint" }] },
+              { num: "#4", title: "Need the ability to update an account in the service", badges: [{ text: "Est: 3", cls: "badge-estimate" }, { text: "Sprint 1", cls: "badge-sprint" }] },
+              { num: "#5", title: "Need the ability to delete an account from the service", badges: [{ text: "Est: 2", cls: "badge-estimate" }, { text: "Sprint 1", cls: "badge-sprint" }] }
+            ]
+          },
+          { name: "In Progress", cards: [] },
+          { name: "Done", cards: [] }
+        ]
+      },
+      {
+        id: "task8",
+        title: "Task 8: rest-techdebt-done.png",
+        filename: "rest-techdebt-done.png",
+        columns: [
+          {
+            name: "Sprint Backlog",
+            cards: [
+              { num: "#2", title: "Need the ability to read an account from the service", badges: [{ text: "Sprint 1", cls: "badge-sprint" }] },
+              { num: "#3", title: "Need the ability to list all accounts in the service", badges: [{ text: "Sprint 1", cls: "badge-sprint" }] },
+              { num: "#4", title: "Need the ability to update an account in the service", badges: [{ text: "Sprint 1", cls: "badge-sprint" }] },
+              { num: "#5", title: "Need the ability to delete an account from the service", badges: [{ text: "Sprint 1", cls: "badge-sprint" }] }
+            ]
+          },
+          { name: "In Progress", cards: [] },
+          {
+            name: "Done",
+            cards: [
+              { num: "#1", title: "Setting up the development environment", badges: [{ text: "technical debt", cls: "badge-techdebt" }, { text: "Sprint 1", cls: "badge-sprint" }] }
+            ]
+          }
+        ]
+      },
+      {
+        id: "task9",
+        title: "Task 9: read-accounts.png",
+        filename: "read-accounts.png",
+        columns: [
+          {
+            name: "Sprint Backlog",
+            cards: [
+              { num: "#3", title: "Need the ability to list all accounts in the service", badges: [{ text: "Sprint 1", cls: "badge-sprint" }] },
+              { num: "#4", title: "Need the ability to update an account in the service", badges: [{ text: "Sprint 1", cls: "badge-sprint" }] },
+              { num: "#5", title: "Need the ability to delete an account from the service", badges: [{ text: "Sprint 1", cls: "badge-sprint" }] }
+            ]
+          },
+          { name: "In Progress", cards: [] },
+          {
+            name: "Done",
+            cards: [
+              { num: "#1", title: "Setting up the development environment" },
+              { num: "#2", title: "Read an account from the service", badges: [{ text: "enhancement", cls: "badge-enhancement" }, { text: "Sprint 1", cls: "badge-sprint" }] }
+            ]
+          }
+        ]
+      },
+      {
+        id: "task10",
+        title: "Task 10: list-accounts.png",
+        filename: "list-accounts.png",
+        columns: [
+          {
+            name: "Sprint Backlog",
+            cards: [
+              { num: "#4", title: "Need the ability to update an account in the service", badges: [{ text: "Sprint 1", cls: "badge-sprint" }] },
+              { num: "#5", title: "Need the ability to delete an account from the service", badges: [{ text: "Sprint 1", cls: "badge-sprint" }] }
+            ]
+          },
+          { name: "In Progress", cards: [] },
+          {
+            name: "Done",
+            cards: [
+              { num: "#1", title: "Setting up the development environment" },
+              { num: "#2", title: "Read an account from the service" },
+              { num: "#3", title: "List all accounts in the service", badges: [{ text: "enhancement", cls: "badge-enhancement" }, { text: "Sprint 1", cls: "badge-sprint" }] }
+            ]
+          }
+        ]
+      },
+      {
+        id: "task11",
+        title: "Task 11: update-accounts.png",
+        filename: "update-accounts.png",
+        columns: [
+          {
+            name: "Sprint Backlog",
+            cards: [
+              { num: "#5", title: "Need the ability to delete an account from the service", badges: [{ text: "Sprint 1", cls: "badge-sprint" }] }
+            ]
+          },
+          { name: "In Progress", cards: [] },
+          {
+            name: "Done",
+            cards: [
+              { num: "#1", title: "Setting up the development environment" },
+              { num: "#2", title: "Read an account from the service" },
+              { num: "#3", title: "List all accounts in the service" },
+              { num: "#4", title: "Update an account in the service", badges: [{ text: "enhancement", cls: "badge-enhancement" }, { text: "Sprint 1", cls: "badge-sprint" }] }
+            ]
+          }
+        ]
+      },
+      {
+        id: "task12",
+        title: "Task 12: delete-accounts.png",
+        filename: "delete-accounts.png",
+        columns: [
+          { name: "Sprint Backlog", cards: [] },
+          { name: "In Progress", cards: [] },
+          {
+            name: "Done",
+            cards: [
+              { num: "#1", title: "Setting up the development environment" },
+              { num: "#2", title: "Read an account from the service" },
+              { num: "#3", title: "List all accounts in the service" },
+              { num: "#4", title: "Update an account in the service" },
+              { num: "#5", title: "Delete an account from the service", badges: [{ text: "enhancement", cls: "badge-enhancement" }, { text: "Sprint 1", cls: "badge-sprint" }] }
+            ]
+          }
+        ]
+      },
+      {
+        id: "task18",
+        title: "Task 18: sprint2-plan.png",
+        filename: "sprint2-plan.png",
+        columns: [
+          {
+            name: "Sprint Backlog",
+            cards: [
+              { num: "#7", title: "Need the ability to automate continuous integration checks", badges: [{ text: "Est: 3", cls: "badge-estimate" }, { text: "Sprint 2", cls: "badge-sprint" }] },
+              { num: "#8", title: "Need to add security headers and CORS policies", badges: [{ text: "Est: 3", cls: "badge-estimate" }, { text: "Sprint 2", cls: "badge-sprint" }] }
+            ]
+          },
+          { name: "In Progress", cards: [] },
+          { name: "Done", cards: [{ num: "#1-5", title: "Sprint 1 stories completed" }] }
+        ]
+      },
+      {
+        id: "task20",
+        title: "Task 20: ci-kanban-done.png",
+        filename: "ci-kanban-done.png",
+        columns: [
+          {
+            name: "Sprint Backlog",
+            cards: [
+              { num: "#8", title: "Need to add security headers and CORS policies", badges: [{ text: "Sprint 2", cls: "badge-sprint" }] }
+            ]
+          },
+          { name: "In Progress", cards: [] },
+          {
+            name: "Done",
+            cards: [
+              { num: "#7", title: "Need the ability to automate continuous integration checks", badges: [{ text: "enhancement", cls: "badge-enhancement" }, { text: "Sprint 2", cls: "badge-sprint" }] }
+            ]
+          }
+        ]
+      },
+      {
+        id: "task24",
+        title: "Task 24: security-kanban-done.png",
+        filename: "security-kanban-done.png",
+        columns: [
+          { name: "Sprint Backlog", cards: [] },
+          { name: "In Progress", cards: [] },
+          {
+            name: "Done",
+            cards: [
+              { num: "#7", title: "Need the ability to automate continuous integration checks" },
+              { num: "#8", title: "Need to add security headers and CORS policies", badges: [{ text: "enhancement", cls: "badge-enhancement" }, { text: "Sprint 2", cls: "badge-sprint" }] }
+            ]
+          }
+        ]
+      },
+      {
+        id: "task25",
+        title: "Task 25: sprint3-plan.png",
+        filename: "sprint3-plan.png",
+        columns: [
+          {
+            name: "Sprint Backlog",
+            cards: [
+              { num: "#9", title: "Containerize your microservice using Docker", badges: [{ text: "Est: 3", cls: "badge-estimate" }, { text: "Sprint 3", cls: "badge-sprint" }] },
+              { num: "#10", title: "Deploy your Docker image to Kubernetes", badges: [{ text: "Est: 5", cls: "badge-estimate" }, { text: "Sprint 3", cls: "badge-sprint" }] },
+              { num: "#11", title: "Create a CD pipeline to automate deployment to Kubernetes", badges: [{ text: "Est: 5", cls: "badge-estimate" }, { text: "Sprint 3", cls: "badge-sprint" }] }
+            ]
+          },
+          { name: "In Progress", cards: [] },
+          { name: "Done", cards: [{ num: "#1-8", title: "Sprint 1 & 2 completed stories" }] }
+        ]
+      },
+      {
+        id: "task27",
+        title: "Task 27: kube-docker-done.png",
+        filename: "kube-docker-done.png",
+        columns: [
+          {
+            name: "Sprint Backlog",
+            cards: [
+              { num: "#10", title: "Deploy your Docker image to Kubernetes", badges: [{ text: "Sprint 3", cls: "badge-sprint" }] },
+              { num: "#11", title: "Create a CD pipeline to automate deployment to Kubernetes", badges: [{ text: "Sprint 3", cls: "badge-sprint" }] }
+            ]
+          },
+          { name: "In Progress", cards: [] },
+          {
+            name: "Done",
+            cards: [
+              { num: "#9", title: "Containerize your microservice using Docker", badges: [{ text: "enhancement", cls: "badge-enhancement" }, { text: "Sprint 3", cls: "badge-sprint" }] }
+            ]
+          }
+        ]
+      },
+      {
+        id: "task28",
+        title: "Task 28: kube-kubernetes-done.png",
+        filename: "kube-kubernetes-done.png",
+        columns: [
+          {
+            name: "Sprint Backlog",
+            cards: [
+              { num: "#11", title: "Create a CD pipeline to automate deployment to Kubernetes", badges: [{ text: "Sprint 3", cls: "badge-sprint" }] }
+            ]
+          },
+          { name: "In Progress", cards: [] },
+          {
+            name: "Done",
+            cards: [
+              { num: "#9", title: "Containerize your microservice using Docker" },
+              { num: "#10", title: "Deploy your Docker image to Kubernetes", badges: [{ text: "enhancement", cls: "badge-enhancement" }, { text: "Sprint 3", cls: "badge-sprint" }] }
+            ]
+          }
+        ]
+      },
+      {
+        id: "task33",
+        title: "Task 33: cd-pipeline-done.png",
+        filename: "cd-pipeline-done.png",
+        columns: [
+          { name: "Sprint Backlog", cards: [] },
+          { name: "In Progress", cards: [] },
+          {
+            name: "Done",
+            cards: [
+              { num: "#9", title: "Containerize your microservice using Docker" },
+              { num: "#10", title: "Deploy your Docker image to Kubernetes" },
+              { num: "#11", title: "Create a CD pipeline to automate deployment to Kubernetes", badges: [{ text: "enhancement", cls: "badge-enhancement" }, { text: "Sprint 3", cls: "badge-sprint" }] }
+            ]
+          }
+        ]
+      }
+    ];
+
+    const root = document.getElementById("tasks-root");
+
+    tasks.forEach(t => {
+      const container = document.createElement("div");
+      container.className = "task-container";
+
+      const header = document.createElement("div");
+      header.className = "task-header";
+      header.innerHTML = `
+        <div class="task-title">${t.title}</div>
+        <button class="btn-download" onclick="downloadBoard('${t.id}', '${t.filename}')">📥 Download PNG (${t.filename})</button>
+      `;
+
+      const board = document.createElement("div");
+      board.className = "kanban-board";
+      board.id = t.id;
+
+      t.columns.forEach(col => {
+        const colDiv = document.createElement("div");
+        colDiv.className = "kanban-column";
+
+        colDiv.innerHTML = `
+          <div class="column-header">
+            <span>${col.name}</span>
+            <span class="counter">${col.cards.length}</span>
+          </div>
+          <div class="cards-container">
+            ${col.cards.map(c => `
+              <div class="card">
+                <span class="issue-num">${c.num}</span>
+                <span class="card-title">${c.title}</span>
+                ${c.badges && c.badges.length ? `
+                  <div class="card-meta">
+                    ${c.badges.map(b => `<span class="badge ${b.cls}">${b.text}</span>`).join("")}
+                  </div>
+                ` : ""}
+              </div>
+            `).join("")}
+          </div>
+        `;
+        board.appendChild(colDiv);
+      });
+
+      container.appendChild(header);
+      container.appendChild(board);
+      root.appendChild(container);
+    });
+
+    function downloadBoard(boardId, filename) {
+      const elem = document.getElementById(boardId);
+      html2canvas(elem, { backgroundColor: "#010409", scale: 2 }).then(canvas => {
+        const a = document.createElement("a");
+        a.href = canvas.toDataURL("image/png");
+        a.download = filename;
+        a.click();
+      });
+    }
+  </script>
+</body>
+</html>
