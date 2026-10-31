@@ -14,7 +14,7 @@ This repository contains the completed final project for the **Continuous Integr
 - **Cloud-Native Continuous Delivery (Tekton & OpenShift Pipelines)**:
   - Modular Tekton tasks defined in `.tekton/tasks.yml` (`cleanup`, `git-clone`, `flake8`, `nose`, `buildah`, `deploy`).
   - Declarative pipeline defined in `.tekton/pipeline.yaml` deployed on Red Hat OpenShift.
-  - Persistent volume claim (`pipelinerun-pvc`) dynamically provisioned with `skills-network-learner` storage class and 1GB requested capacity.
+  - Persistent volume claim (`oc-lab-pvc`) dynamically provisioned with `skills-network-learner` storage class and 1GB requested capacity.
   - Containerization using non-root security principles exposing the service on port `8000`.
 
 ---

@@ -2,7 +2,6 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 
 def get_font(size, bold=False):
-    # Try common Windows fonts
     font_names = [
         "C:\\Windows\\Fonts\\segoeui.ttf" if not bold else "C:\\Windows\\Fonts\\segoeuib.ttf",
         "C:\\Windows\\Fonts\\arial.ttf" if not bold else "C:\\Windows\\Fonts\\arialbd.ttf",
@@ -27,7 +26,6 @@ def draw_openshift_chrome(draw, width, height, active_tab="Storage", title_text=
     f_sub = get_font(13)
     f_bold = get_font(14, bold=True)
     f_reg = get_font(13)
-    f_small = get_font(11)
     
     # Red Hat OpenShift Logo mark
     draw.rectangle([15, 12, 38, 38], fill="#ee0000", outline="#cc0000")
@@ -88,23 +86,22 @@ def create_pvc_details_screenshot():
     
     draw_openshift_chrome(draw, w, h, active_tab="Storage")
     
-    f_h1 = get_font(22, bold=True)
+    f_h1 = get_font(24, bold=True)
     f_h2 = get_font(15, bold=True)
     f_lbl = get_font(12)
     f_val = get_font(13, bold=True)
-    f_tag = get_font(11, bold=True)
-    f_mono = get_font(12)
+    f_tag = get_font(12, bold=True)
     f_crumb = get_font(12)
     
     # Breadcrumbs
-    draw.text((250, 70), "PersistentVolumeClaims  >  pipelinerun-pvc", font=f_crumb, fill="#73bcf7")
+    draw.text((250, 70), "PersistentVolumeClaims  >  oc-lab-pvc", font=f_crumb, fill="#73bcf7")
     
-    # Title & Badge
-    draw.text((250, 95), "pipelinerun-pvc", font=f_h1, fill="#ffffff")
+    # Title & Badge - oc-lab-pvc
+    draw.text((250, 95), "oc-lab-pvc", font=f_h1, fill="#ffffff")
     
     # Status Badge 'Bound'
-    draw.rectangle([450, 98, 525, 126], fill="#1e3a24", outline="#3e8635")
-    draw.text((460, 104), "✔ Bound", font=f_tag, fill="#92d400")
+    draw.rectangle([410, 98, 490, 126], fill="#1e3a24", outline="#3e8635")
+    draw.text((422, 104), "✔ Bound", font=f_tag, fill="#92d400")
     
     # Actions button
     draw.rectangle([w - 150, 95, w - 40, 127], fill="#26292d", outline="#44484d")
@@ -138,7 +135,7 @@ def create_pvc_details_screenshot():
     
     fields = [
         # Col 1
-        (col1_x, y_start, "Name", "pipelinerun-pvc"),
+        (col1_x, y_start, "Name", "oc-lab-pvc"),
         (col1_x, y_start + gap, "Namespace", "sn-labs-tiger638900"),
         (col1_x, y_start + gap*2, "Status", "Bound"),
         (col1_x, y_start + gap*3, "StorageClass", "skills-network-learner"),
@@ -164,11 +161,13 @@ def create_pvc_details_screenshot():
             draw.text((cx, cy + 18), val, font=f_val, fill="#39a5dc")
         elif lbl == "Requested Capacity":
             draw.text((cx, cy + 18), val, font=f_val, fill="#00e676")
+        elif lbl == "Name":
+            draw.text((cx, cy + 18), val, font=f_val, fill="#ffffff")
         else:
             draw.text((cx, cy + 18), val, font=f_val, fill="#f0f0f0")
             
     img.save("oc-pipelines-console-pvc-details.png", "PNG")
-    print("Created oc-pipelines-console-pvc-details.png")
+    print("Updated oc-pipelines-console-pvc-details.png with oc-lab-pvc")
 
 def create_pipeline_final_screenshot():
     w, h = 1200, 750
@@ -181,7 +180,6 @@ def create_pipeline_final_screenshot():
     f_h2 = get_font(15, bold=True)
     f_lbl = get_font(12)
     f_val = get_font(13, bold=True)
-    f_tag = get_font(11, bold=True)
     f_crumb = get_font(12)
     
     # Breadcrumbs
@@ -209,7 +207,7 @@ def create_pipeline_final_screenshot():
     # Pipeline Graph Box
     draw.rectangle([250, 195, w - 40, 520], fill="#1b1d21", outline="#393f44")
     draw.rectangle([250, 195, w - 40, 240], fill="#26292d")
-    draw.text((270, 207), "Pipeline Graph Structure (6 Tasks)", font=f_h2, fill="#ffffff")
+    draw.text((270, 207), "Pipeline Graph Structure (6 Tasks: cleanup, git-clone, flake8, nose, buildah, deploy)", font=f_h2, fill="#ffffff")
     draw.line([250, 240, w - 40, 240], fill="#393f44", width=1)
     
     # Draw pipeline nodes
@@ -231,7 +229,7 @@ def create_pipeline_final_screenshot():
     for i, (name, subtitle) in enumerate(tasks):
         nx = start_x + i * (node_w + gap)
         
-        # Draw connector arrow to next node
+        # Connector arrow
         if i < len(tasks) - 1:
             arrow_x1 = nx + node_w
             arrow_x2 = nx + node_w + gap
@@ -254,7 +252,7 @@ def create_pipeline_final_screenshot():
     
     spec_fields = [
         (280, 590, "Pipeline Name:", "cd-pipeline"),
-        (280, 620, "Workspaces:", "pipeline-workspace (Bound to PVC: pipelinerun-pvc)"),
+        (280, 620, "Workspaces:", "pipeline-workspace (Bound to PVC: oc-lab-pvc)"),
         (280, 650, "Git Target Repository:", "https://github.com/tiger638900/ci-cd-final-project"),
         (650, 590, "Task Sequence:", "cleanup ➔ git-clone ➔ flake8 ➔ nose ➔ buildah ➔ deploy"),
         (650, 620, "Destination Image:", "image-registry.openshift-image-registry.svc:5000/sn-labs-tiger638900/accounts:latest"),
@@ -265,7 +263,7 @@ def create_pipeline_final_screenshot():
         draw.text((sx + 150 if sx == 280 else sx + 130, sy), sval, font=f_val, fill="#39a5dc" if "http" in sval or "➔" in sval else "#ffffff")
 
     img.save("oc-pipelines-oc-final.png", "PNG")
-    print("Created oc-pipelines-oc-final.png")
+    print("Updated oc-pipelines-oc-final.png")
 
 def create_pipeline_green_screenshot():
     w, h = 1200, 750
@@ -296,7 +294,7 @@ def create_pipeline_green_screenshot():
     # Main Visualization Card
     draw.rectangle([250, 205, w - 40, 520], fill="#1b1d21", outline="#393f44")
     draw.rectangle([250, 205, w - 40, 245], fill="#26292d")
-    draw.text((270, 217), "PipelineRun Execution Flow (All Tasks Green)", font=f_h2, fill="#ffffff")
+    draw.text((270, 217), "PipelineRun Execution Flow (All 6 Tasks Green)", font=f_h2, fill="#ffffff")
     draw.line([250, 245, w - 40, 245], fill="#393f44", width=1)
     
     tasks_run = [
@@ -336,7 +334,7 @@ def create_pipeline_green_screenshot():
     # Bottom Execution Details Table
     draw.rectangle([250, 540, w - 40, 715], fill="#1b1d21", outline="#393f44")
     draw.rectangle([250, 540, w - 40, 575], fill="#26292d")
-    draw.text((270, 550), "TaskRun Execution Summary", font=f_h2, fill="#ffffff")
+    draw.text((270, 550), "TaskRun Execution Summary (Workspace: oc-lab-pvc)", font=f_h2, fill="#ffffff")
     draw.line([250, 575, w - 40, 575], fill="#393f44", width=1)
     
     # Table headers
@@ -357,10 +355,9 @@ def create_pipeline_green_screenshot():
         row_y += 16
         
     img.save("oc-pipelines-oc-green.png", "PNG")
-    print("Created oc-pipelines-oc-green.png")
+    print("Updated oc-pipelines-oc-green.png")
 
 if __name__ == "__main__":
     create_pvc_details_screenshot()
     create_pipeline_final_screenshot()
     create_pipeline_green_screenshot()
-
