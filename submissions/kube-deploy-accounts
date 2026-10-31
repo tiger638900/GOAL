@@ -1,0 +1,11 @@
+NAME                            READY   STATUS    RESTARTS   AGE
+pod/accounts-7689949987-8k4w9   1/1     Running   0          5m12s
+
+NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+service/accounts     NodePort    172.21.104.225   <none>        8080:31200/TCP   5m12s
+
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/accounts   1/1     1            1           5m12s
+
+NAME                                  DESIRED   CURRENT   READY   AGE
+replicaset.apps/accounts-7689949987   1         1         1       5m12s

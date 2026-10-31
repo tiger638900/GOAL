@@ -1,0 +1,42 @@
+[git-clone : clone] + '[' false '=' true ']'
+[git-clone : clone] + CHECKOUT_DIR=/workspace/output/
+[git-clone : clone] + '[[' true '==' true ']]'
+[git-clone : clone] + cleandir /workspace/output/
+[git-clone : clone] + git clone https://github.com/tiger638900/devops-capstone-project /workspace/output/
+[git-clone : clone] Cloning into '/workspace/output'...
+[git-clone : clone] + cd /workspace/output/
+[git-clone : clone] + git checkout main
+
+[lint : flake8] flake8 service tests --count --max-line-length=127 --statistics
+[lint : flake8] 0
+
+[lint : pylint] pylint service --max-line-length=127
+[lint : pylint] --------------------------------------------------------------------
+[lint : pylint] Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+
+[tests : nosetests] nosetests -v --with-spec --spec-color
+[tests : nosetests] Account Service Tests
+[tests : nosetests] - Test create an account
+[tests : nosetests] - Test read an account
+[tests : nosetests] - Test update an account
+[tests : nosetests] - Test delete an account
+[tests : nosetests] - Test list all accounts
+[tests : nosetests] - Test security headers
+[tests : nosetests] - Test CORS headers
+[tests : nosetests] ----------------------------------------------------------------------
+[tests : nosetests] Ran 32 tests in 2.134s
+[tests : nosetests] OK
+
+[build-image : build-and-push] STEP 1: FROM python:3.9-slim
+[build-image : build-and-push] STEP 2: WORKDIR /app
+[build-image : build-and-push] STEP 3: COPY requirements.txt .
+[build-image : build-and-push] STEP 4: RUN pip install --no-cache-dir -r requirements.txt
+[build-image : build-and-push] STEP 5: COPY service/ ./service/
+[build-image : build-and-push] STEP 6: USER theia
+[build-image : build-and-push] STEP 7: EXPOSE 8080
+[build-image : build-and-push] STEP 8: CMD ["gunicorn", "--bind=0.0.0.0:8080", "service:app"]
+[build-image : build-and-push] Successfully tagged image-registry.openshift-image-registry.svc:5000/sn-labs-user/accounts:latest
+[build-image : build-and-push] Pushed image successfully.
+
+[deploy : apply] deployment.apps/accounts configured
+[deploy : apply] service/accounts configured

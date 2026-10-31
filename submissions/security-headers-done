@@ -1,0 +1,23 @@
+nosetests
+
+Account Service Tests
+- Test create an Account
+- Test read an Account
+- Test update an Account
+- Test delete an Account
+- Test list all Accounts
+- Test security headers (Talisman)
+- Test CORS policies and headers
+
+Name                  Stmts   Miss  Cover   Missing
+---------------------------------------------------
+service/__init__.py      18      0   100%
+service/common/error_handlers.py   31      0   100%
+service/models.py        65      0   100%
+service/routes.py        88      0   100%
+---------------------------------------------------
+TOTAL                   202      0   100%
+----------------------------------------------------------------------
+Ran 32 tests in 1.892s
+
+OK
