@@ -16,3 +16,4 @@ Given [initial context]
 When [action performed]
 Then [expected outcome]
 ```
+

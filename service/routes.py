@@ -147,3 +147,4 @@ def url_map_to_dict():
         if rule.endpoint != "static":
             url_map[rule.endpoint] = str(rule)
     return url_map
+

@@ -118,3 +118,4 @@ class TestAccountModel(TestCase):
         data = "this is not a dictionary"
         account = Account()
         self.assertRaises(DataValidationError, account.deserialize, data)
+

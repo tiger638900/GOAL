@@ -121,3 +121,4 @@ class Account(db.Model):
         """Returns all Accounts with the given name"""
         logger.info("Processing name query for %s ...", name)
         return cls.query.filter(cls.name == name).all()
+

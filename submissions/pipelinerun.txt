@@ -40,3 +40,4 @@
 
 [deploy : apply] deployment.apps/accounts configured
 [deploy : apply] service/accounts configured
+

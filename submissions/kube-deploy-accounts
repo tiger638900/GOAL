@@ -9,3 +9,4 @@ deployment.apps/accounts   1/1     1            1           5m12s
 
 NAME                                  DESIRED   CURRENT   READY   AGE
 replicaset.apps/accounts-7689949987   1         1         1       5m12s
+

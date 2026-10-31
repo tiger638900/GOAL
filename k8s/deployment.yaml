@@ -30,3 +30,4 @@ spec:
         env:
         - name: DATABASE_URI
           value: "sqlite:///../development.db"
+
