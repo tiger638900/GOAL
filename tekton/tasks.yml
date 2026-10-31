@@ -1,0 +1,56 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: cleanup
+spec:
+  description: "This task will clean up a workspace by deleting files"
+  workspaces:
+    - name: source
+  steps:
+    - name: clean-workspace
+      image: alpine:latest
+      workingDir: $(workspaces.source.path)
+      script: |
+        #!/usr/bin/env sh
+        echo "Cleaning up workspace directory..."
+        rm -rf *
+        rm -rf .* 2>/dev/null || true
+        echo "Workspace cleaned successfully."
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: flake8
+spec:
+  description: "This task runs flake8 against the Python codebase"
+  workspaces:
+    - name: source
+  steps:
+    - name: flake8
+      image: python:3.9-slim
+      workingDir: $(workspaces.source.path)
+      script: |
+        #!/usr/bin/env bash
+        set -e
+        python -m pip install --upgrade pip
+        pip install flake8
+        flake8 service tests --count --max-line-length=127 --statistics
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: nose
+spec:
+  description: "This task runs unit tests using nosetests"
+  workspaces:
+    - name: source
+  steps:
+    - name: nosetests
+      image: python:3.9-slim
+      workingDir: $(workspaces.source.path)
+      script: |
+        #!/usr/bin/env bash
+        set -e
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        nosetests -v --with-spec --spec-color --with-coverage --cover-package=service

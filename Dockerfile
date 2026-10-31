@@ -7,10 +7,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY service/ ./service/
 
-RUN useradd -u 1000 theia && chown -R theia /app
-USER theia
+RUN useradd -u 1000 service && chown -R service /app
+USER service
 
-EXPOSE 8080
+EXPOSE 8000
 
-CMD ["gunicorn", "--bind=0.0.0.0:8080", "--log-level=info", "service:app"]
-
+CMD ["gunicorn", "--bind=0.0.0.0:8000", "--log-level=info", "service:app"]

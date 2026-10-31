@@ -8,16 +8,26 @@ spec:
   params:
     - name: repo-url
       type: string
+      default: "https://github.com/tiger638900/ci-cd-final-project"
     - name: branch
       type: string
       default: "main"
     - name: image-name
       type: string
-      default: "accounts:latest"
+      default: "image-registry.openshift-image-registry.svc:5000/sn-labs-tiger638900/accounts:latest"
   tasks:
+    - name: cleanup
+      taskRef:
+        name: cleanup
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
+
     - name: git-clone
       taskRef:
         name: git-clone
+      runAfter:
+        - cleanup
       workspaces:
         - name: output
           workspace: pipeline-workspace
@@ -27,7 +37,7 @@ spec:
         - name: revision
           value: $(params.branch)
 
-    - name: lint
+    - name: flake8
       taskRef:
         name: flake8
       runAfter:
@@ -36,20 +46,20 @@ spec:
         - name: source
           workspace: pipeline-workspace
 
-    - name: tests
+    - name: nose
       taskRef:
-        name: nosetests
+        name: nose
       runAfter:
-        - lint
+        - flake8
       workspaces:
         - name: source
           workspace: pipeline-workspace
 
-    - name: build-image
+    - name: buildah
       taskRef:
         name: buildah
       runAfter:
-        - tests
+        - nose
       workspaces:
         - name: source
           workspace: pipeline-workspace
@@ -59,10 +69,14 @@ spec:
 
     - name: deploy
       taskRef:
-        name: apply-manifests
+        name: openshift-client
       runAfter:
-        - build-image
+        - buildah
       workspaces:
         - name: source
           workspace: pipeline-workspace
-
+      params:
+        - name: SCRIPT
+          value: |
+            oc apply -f k8s/deployment.yaml
+            oc apply -f k8s/service.yaml

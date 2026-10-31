@@ -1,0 +1,15 @@
+[2026-10-31 07:45:10 +0000] [1] [INFO] Starting gunicorn 20.1.0
+[2026-10-31 07:45:10 +0000] [1] [INFO] Listening at: http://0.0.0.0:8000 (1)
+[2026-10-31 07:45:10 +0000] [1] [INFO] Using worker: sync
+[2026-10-31 07:45:10 +0000] [7] [INFO] Booting worker with pid: 7
+[2026-10-31 07:45:11 +0000] [7] [INFO] **********************************************************************
+[2026-10-31 07:45:11 +0000] [7] [INFO] *                        SERVICERUNNING                              *
+[2026-10-31 07:45:11 +0000] [7] [INFO] *             A C C O U N T   S E R V I C E   R U N N I N G          *
+[2026-10-31 07:45:11 +0000] [7] [INFO] **********************************************************************
+[2026-10-31 07:45:11 +0000] [7] [INFO] Initialized database connection: sqlite:///../development.db
+[2026-10-31 07:45:11 +0000] [7] [INFO] Attached security headers with Flask-Talisman
+[2026-10-31 07:45:11 +0000] [7] [INFO] Configured CORS policy
+[2026-10-31 07:45:11 +0000] [7] [INFO] Registered REST API routes for /accounts
+[2026-10-31 07:45:15 +0000] [7] [INFO] 10.128.2.1 - - [31/Oct/2026:07:45:15 +0000] "GET / HTTP/1.1" 200 78 "-" "kube-probe/1.25"
+[2026-10-31 07:45:25 +0000] [7] [INFO] 10.128.2.1 - - [31/Oct/2026:07:45:25 +0000] "GET /health HTTP/1.1" 200 24 "-" "kube-probe/1.25"
+[2026-10-31 07:45:30 +0000] [7] [INFO] 10.128.2.34 - - [31/Oct/2026:07:45:30 +0000] "GET /accounts HTTP/1.1" 200 452 "-" "curl/7.79.1"

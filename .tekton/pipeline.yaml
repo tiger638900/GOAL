@@ -1,0 +1,82 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: cd-pipeline
+spec:
+  workspaces:
+    - name: pipeline-workspace
+  params:
+    - name: repo-url
+      type: string
+      default: "https://github.com/tiger638900/ci-cd-final-project"
+    - name: branch
+      type: string
+      default: "main"
+    - name: image-name
+      type: string
+      default: "image-registry.openshift-image-registry.svc:5000/sn-labs-tiger638900/accounts:latest"
+  tasks:
+    - name: cleanup
+      taskRef:
+        name: cleanup
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
+
+    - name: git-clone
+      taskRef:
+        name: git-clone
+      runAfter:
+        - cleanup
+      workspaces:
+        - name: output
+          workspace: pipeline-workspace
+      params:
+        - name: url
+          value: $(params.repo-url)
+        - name: revision
+          value: $(params.branch)
+
+    - name: flake8
+      taskRef:
+        name: flake8
+      runAfter:
+        - git-clone
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
+
+    - name: nose
+      taskRef:
+        name: nose
+      runAfter:
+        - flake8
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
+
+    - name: buildah
+      taskRef:
+        name: buildah
+      runAfter:
+        - nose
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
+      params:
+        - name: IMAGE
+          value: $(params.image-name)
+
+    - name: deploy
+      taskRef:
+        name: openshift-client
+      runAfter:
+        - buildah
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
+      params:
+        - name: SCRIPT
+          value: |
+            oc apply -f k8s/deployment.yaml
+            oc apply -f k8s/service.yaml

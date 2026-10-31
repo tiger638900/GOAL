@@ -19,7 +19,7 @@ spec:
         image: accounts:latest
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8080
+        - containerPort: 8000
         resources:
           limits:
             cpu: "500m"
@@ -30,4 +30,3 @@ spec:
         env:
         - name: DATABASE_URI
           value: "sqlite:///../development.db"
-

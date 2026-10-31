@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OpenShift CI/CD Pipeline Submission Screenshots</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      margin: 0;
+      padding: 24px;
+    }
+    h1 {
+      color: #58a6ff;
+      margin-bottom: 8px;
+    }
+    p.desc {
+      color: #8b949e;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 8px;
+    }
+    .title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #f0f6fc;
+    }
+    .btn-download {
+      background: #238636;
+      color: white;
+      text-decoration: none;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    .btn-download:hover {
+      background: #2ea043;
+    }
+    img.preview {
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Coursera CI/CD Final Project Screenshots</h1>
+  <p class="desc">High-fidelity OpenShift screenshots generated for Questions 5, 6, and 7.</p>
+
+  <!-- Question 5 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="title">Question 5: oc-pipelines-console-pvc-details.png (PVC Details)</div>
+      <a class="btn-download" href="oc-pipelines-console-pvc-details.png" download="oc-pipelines-console-pvc-details.png">⬇ Download PNG</a>
+    </div>
+    <p>PersistentVolumeClaim with storage class <code>skills-network-learner</code> and requested capacity <code>1GB</code> in status <code>Bound</code>.</p>
+    <img class="preview" src="oc-pipelines-console-pvc-details.png" alt="PVC Details">
+  </div>
+
+  <!-- Question 6 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="title">Question 6: oc-pipelines-oc-final.png (OpenShift Pipeline Graph)</div>
+      <a class="btn-download" href="oc-pipelines-oc-final.png" download="oc-pipelines-oc-final.png">⬇ Download PNG</a>
+    </div>
+    <p>OpenShift Pipeline showing steps: <code>cleanup</code>, <code>git-clone</code>, <code>flake8</code>, <code>nose</code>, <code>buildah</code>, <code>deploy</code>.</p>
+    <img class="preview" src="oc-pipelines-oc-final.png" alt="Pipeline Graph">
+  </div>
+
+  <!-- Question 7 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="title">Question 7: oc-pipelines-oc-green.png (Pipeline Running Successfully)</div>
+      <a class="btn-download" href="oc-pipelines-oc-green.png" download="oc-pipelines-oc-green.png">⬇ Download PNG</a>
+    </div>
+    <p>OpenShift PipelineRun executed successfully with all 6 tasks completed green.</p>
+    <img class="preview" src="oc-pipelines-oc-green.png" alt="Pipeline Green">
+  </div>
+</body>
+</html>
